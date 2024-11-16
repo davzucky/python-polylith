@@ -23,6 +23,15 @@ changed_files_tdd = [
     Path(f"components/c/src/{ns}/c/nested/subfolder/core.py"),
 ]
 
+changed_files_sub_tdd = [
+    Path(f"python/some/other/{ns}/file.py"),
+    Path(f"python/bases/b/src/{ns}/b/core.py"),
+    Path(f"python/components/a/src/{ns}/a/core.py"),
+    Path(f"python/components/b/src/{ns}/b/core.py"),
+    Path(f"python/components/{ns}/x/core.py"),
+    Path(f"python/components/c/src/{ns}/c/nested/subfolder/core.py"),
+]
+
 
 @pytest.fixture
 def setup(monkeypatch):
@@ -40,6 +49,13 @@ def test_get_changed_components(setup):
     res = collect.get_changed_components(root, changed_files_loose, ns)
 
     assert res == ["a", "b", "c"]
+
+def test_get_changed_components_sub_folder(setup):
+    setup(theme="loose")
+
+    res = collect.get_changed_components(root, changed_files_sub_tdd, ns)
+
+    assert res == ["a", "b", "c"]    
 
 
 def test_get_changed_bases(setup):
